@@ -8,6 +8,7 @@ def home(request):
     print(request.user.username)
     return render(request, 'login.html')
 
+
 def signupPage(request):
     if request.method == 'POST':
         uname = request.POST.get('uname')
@@ -33,6 +34,7 @@ def signupPage(request):
                 return HttpResponse("An error occurred. Please try again.")
     return render(request, 'signup.html')
 
+
 def loginPage(request):
     if request.method == 'POST':
         uname = request.POST.get('uname')
@@ -40,18 +42,21 @@ def loginPage(request):
         user = authenticate(request, username=uname, password=pass1)
         if user is not None:
             login(request, user)
-            return redirect('home')
+            if user.is_superuser:
+                return redirect('superadmin_dashboard')
+            elif user.is_staff:
+                return redirect('admin_dashboard')
+            else:
+                return redirect('user_dashboard')
         else:
             return HttpResponse("Invalid username and/or password.")
     return render(request, 'login.html')
+
 
 def logoutPage(request):
     logout(request)
     return redirect('login')
 
-def profile(request):
-    return render(request, 'profile.html')
 
-
-
-
+# def profile(request):
+#     return render(request, 'profile.html')

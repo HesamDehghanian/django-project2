@@ -1,8 +1,8 @@
 
 from django.contrib import admin
-from .models import CustomUser, VoiceSample
+from .models import userProfile
 
-admin.site.register(CustomUser)
-admin.site.register(VoiceSample)
+admin.site.register(userProfile)
+
 
 # Register your models here.
